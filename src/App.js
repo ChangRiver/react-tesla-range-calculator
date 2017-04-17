@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.scss';
+import logo from './assets/logo.svg';
+import './App.css';
+
+import TeslaBattery from './components/tesla-battery/tesla-battery';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <div>
+        <header className="header">
+          <img src={logo} alt="" />
+        </header>
+        <div className="wrapper">
+          <TeslaBattery></TeslaBattery>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
