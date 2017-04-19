@@ -4,6 +4,9 @@ import './tesla-battery.css';
 
 import TeslaCar from '../tesla-car/tesla-car';
 import TeslaStats from '../tesla-stats/tesla-stats';
+import TeslaCounter from '../tesla-counter/tesla-counter';
+import TeslaClimate from '../tesla-climate/tesla-climate';
+import TeslaWheels from '../tesla-wheels/tesla-wheels';
 
 class TeslaBattery extends Component {
   constructor(props) {
@@ -17,8 +20,13 @@ class TeslaBattery extends Component {
         temperature: 20,
         climate: true,
         wheels: 19
-      }
+      },
+      tab: null
     };
+    this.onChangeSpeed = this.onChangeSpeed.bind(this);
+    this.onChangeTemperature = this.onChangeTemperature.bind(this);
+    this.onChangeClimate = this.onChangeClimate.bind(this);
+    this.onChangeWheels = this.onChangeWheels.bind(this);
   }
 
   results = ['60', '60D', '75', '75D', '90D', 'P100D'];
@@ -58,6 +66,35 @@ class TeslaBattery extends Component {
     })
   }
 
+  onChangeSpeed(newVal) {
+    this.setState({
+      config: Object.assign(this.state.config, { speed: newVal }),
+      stats: this.calculateStats(this.results, this.state.config)
+    });
+  }
+
+  onChangeTemperature(newVal) {
+    this.setState({
+      config: Object.assign(this.state.config, { temperature: newVal }),
+      stats: this.calculateStats(this.results, this.state.config)
+    });
+  }
+
+  onChangeClimate(newVal) {
+    this.setState({
+      config: Object.assign(this.state.config, { climate: newVal }),
+      stats: this.calculateStats(this.results, this.state.config)
+    });
+  }
+
+  onChangeWheels(newVal) {
+    this.setState({
+      tab: newVal,
+      config: Object.assign(this.state.config, { wheels: newVal }),
+      stats: this.calculateStats(this.results, this.state.config)
+    });
+  }
+
   render() {
     const title = 'Range Per Charge';
     return (
@@ -73,7 +110,30 @@ class TeslaBattery extends Component {
             }
           </ul>
         </div>
-
+        <div className="tesla-controls cf">
+          <TeslaCounter
+            title="Speed"
+            unit="mph"
+            value={this.state.config.speed}
+            step="5"
+            min="45"
+            max="70" onChangeValue={this.onChangeSpeed}>
+          </TeslaCounter>
+          <TeslaCounter
+            title="Outside Temperature"
+            unit="°"
+            value={this.state.config.temperature}
+            step="10"
+            min="-10"
+            max="40" onChangeValue={this.onChangeTemperature}>
+          </TeslaCounter>
+          <div className="tesla-climate cf">
+            <TeslaClimate
+              limit={this.state.config.temperature > 10} onChangeValue={this.onChangeClimate}>
+            </TeslaClimate>
+          </div>
+          <TeslaWheels tab={this.state.tab} onChangeValue={this.onChangeWheels}></TeslaWheels>
+        </div>
         <div className="tesla-battery__notice">
           <p>
             The actual amount of range that you experience will vary based
