@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import './tesla-counter.css';
 
-
 class TeslaCounter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: null,
-      focused: false,
-      disabled: false
+      btnUp_disabled: false,
+      btnDown_disabled: false
     };
 
     this.increment = this.increment.bind(this);
@@ -17,25 +15,33 @@ class TeslaCounter extends Component {
 
   increment(e) {
     e.preventDefault();
+    this.setState({
+      btnDown_disabled: false
+    });
     if(this.props.value < this.props.max) {
       this.props.onChangeValue(Number(this.props.value) + Number(this.props.step))
     }
 
-    if(this.props.value === this.props.max) {
+    if(this.props.value >= this.props.max) {
       this.setState({
-        disabled: true
+        btnUp_disabled: true
       })
     }
   }
 
   decrement(e) {
     e.preventDefault();
+    this.setState({
+      btnUp_disabled: false
+    });
     if(this.props.value > this.props.min) {
       this.props.onChangeValue(Number(this.props.value) - Number(this.props.step))
     }
 
-    if(this.props.value === this.props.min) {
-
+    if(this.props.value <= this.props.min) {
+      this.setState({
+        btnDown_disabled: true
+      })
     }
   }
 
@@ -50,8 +56,8 @@ class TeslaCounter extends Component {
               <span>{this.props.unit}</span>
             </p>
             <div className="tesla-counter__controls" tabIndex="-1">
-              <button tabIndex="-1" onClick={this.increment} disabled={this.state.disabled}></button>
-              <button tabIndex="-1" onClick={this.decrement} disabled={this.state.disabled}></button>
+              <button tabIndex="-1" onClick={this.increment} disabled={this.state.btnUp_disabled}></button>
+              <button tabIndex="-1" onClick={this.decrement} disabled={this.state.btnDown_disabled}></button>
             </div>
           </div>
         </div>

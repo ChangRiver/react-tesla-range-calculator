@@ -18,10 +18,10 @@ class TeslaBattery extends Component {
       config: {
         speed: 55,
         temperature: 20,
-        climate: true,
+        climate: false,
         wheels: 19
       },
-      tab: null
+      tab: '19'
     };
     this.onChangeSpeed = this.onChangeSpeed.bind(this);
     this.onChangeTemperature = this.onChangeTemperature.bind(this);
@@ -117,7 +117,8 @@ class TeslaBattery extends Component {
             value={this.state.config.speed}
             step="5"
             min="45"
-            max="70" onChangeValue={this.onChangeSpeed}>
+            max="70"
+            onChangeValue={this.onChangeSpeed}>
           </TeslaCounter>
           <TeslaCounter
             title="Outside Temperature"
@@ -125,7 +126,8 @@ class TeslaBattery extends Component {
             value={this.state.config.temperature}
             step="10"
             min="-10"
-            max="40" onChangeValue={this.onChangeTemperature}>
+            max="40"
+            onChangeValue={this.onChangeTemperature}>
           </TeslaCounter>
           <div className="tesla-climate cf">
             <TeslaClimate
